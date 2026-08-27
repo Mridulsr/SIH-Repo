@@ -1,0 +1,6 @@
+{
+  "name": "SIH26187 - Intelligent Border Video Analytics Platform",
+  "description": "AI-powered real-time CCTV video analytics platform for border security (SSB / MHA) with YOLO object tracking, virtual fence intrusion detection, ANPR, night vision movement detection, and live command dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
