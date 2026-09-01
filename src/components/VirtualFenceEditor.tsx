@@ -165,7 +165,7 @@ export const VirtualFenceEditor: React.FC<VirtualFenceEditorProps> = ({
                 Virtual Fence & Restricted Zone Studio
               </h2>
               <p className="text-xs text-slate-400 font-mono">
-                {camera.id} — {camera.name}
+                {camera?.id || "CAM"} — {camera?.properName || camera?.name || "Border Camera"}
               </p>
             </div>
           </div>

@@ -14,6 +14,32 @@ export type LightingEnvironment =
   | "RAIN_MONSOON"
   | "FOG_VALLEY";
 
+export type NavigationTab =
+  | "dashboard"
+  | "live-cameras"
+  | "events"
+  | "alerts"
+  | "vehicles"
+  | "people"
+  | "analytics"
+  | "reports"
+  | "settings"
+  | "profile"
+  | "support"
+  | "blueprint";
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: "System Administrator" | "Surveillance Commander" | "Edge Operator" | "Forensics Auditor";
+  outpost: string;
+  avatarUrl?: string;
+  phone?: string;
+  lastLogin: string;
+  permissions: string[];
+}
+
 export interface VirtualFence {
   id: string;
   name: string;
@@ -65,7 +91,7 @@ export interface AlertEvent {
   cameraId: string;
   cameraName: string;
   sector: string;
-  eventType: "VIRTUAL_FENCE_INTRUSION" | "ANPR_WATCHLIST_HIT" | "NIGHT_LOITERING" | "SUSPICIOUS_TRAJECTORY" | "UNAUTHORIZED_VEHICLE";
+  eventType: "VIRTUAL_FENCE_INTRUSION" | "ANPR_WATCHLIST_HIT" | "NIGHT_LOITERING" | "SUSPICIOUS_TRAJECTORY" | "UNAUTHORIZED_VEHICLE" | "PERSON_IN_RESTRICTED_AREA";
   timestamp: string;
   severity: SeverityLevel;
   trackId: string;
@@ -95,12 +121,26 @@ export interface VehiclePlateRecord {
   cameraId: string;
   cameraName: string;
   plateNumber: string;
-  vehicleType: "SEDAN" | "SUV" | "TRUCK" | "MOTORCYCLE" | "JEEP_4X4" | "HEAVY_CARGO";
+  vehicleType: "SEDAN" | "SUV" | "TRUCK" | "MOTORCYCLE" | "JEEP_4X4" | "HEAVY_CARGO" | "Car" | "Truck";
   timestamp: string;
   ocrConfidence: number;
   speedKmh: number;
   watchlistStatus: "CLEAN" | "FLAGGED_SUSPICIOUS" | "WANTED_RED_NOTICE" | "STOLEN";
+  snapshotUrl?: string;
   notes?: string;
+}
+
+export interface PersonRecord {
+  id: string;
+  cameraId: string;
+  cameraName: string;
+  timestamp: string;
+  confidence: number;
+  snapshotUrl?: string;
+  activity: "WALKING" | "LOITERING" | "RUNNING" | "CLIMBING" | "STATIONARY";
+  zoneStatus: "AUTHORIZED" | "RESTRICTED" | "BUFFER";
+  loiterDurationSec: number;
+  reIdScore?: number;
 }
 
 export interface SystemMetrics {

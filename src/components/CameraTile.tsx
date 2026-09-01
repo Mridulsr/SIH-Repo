@@ -314,7 +314,7 @@ export const CameraTile: React.FC<CameraTileProps> = ({
                   setActiveBreachAlert(`ALERT: ${fence.name} Breached by ${track.id}`);
 
                   const intrusionAlert: AlertEvent = {
-                    id: `ALT-${Date.now()}`,
+                    id: `ALT-${camera.id}-${track.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
                     cameraId: camera.id,
                     cameraName: camera.properName || camera.name,
                     sector: camera.sector,
@@ -470,7 +470,7 @@ export const CameraTile: React.FC<CameraTileProps> = ({
     setLastPlateScanned(picked.plate);
 
     const rec: VehiclePlateRecord = {
-      id: `VEH-${Date.now()}`,
+      id: `VEH-${camera.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       cameraId: camera.id,
       cameraName: camera.properName || camera.name,
       plateNumber: picked.plate,
@@ -485,7 +485,7 @@ export const CameraTile: React.FC<CameraTileProps> = ({
 
     if (picked.status === "WANTED_RED_NOTICE") {
       const alert: AlertEvent = {
-        id: `ALT-ANPR-${Date.now()}`,
+        id: `ALT-ANPR-${camera.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
         cameraId: camera.id,
         cameraName: camera.properName || camera.name,
         sector: camera.sector,
@@ -511,7 +511,7 @@ export const CameraTile: React.FC<CameraTileProps> = ({
   // Snapshot capture handler
   const handleCaptureSnapshot = useCallback(() => {
     const snapshotAlert: AlertEvent = {
-      id: `SNAP-${Date.now()}`,
+      id: `SNAP-${camera.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       cameraId: camera.id,
       cameraName: camera.properName || camera.name,
       sector: camera.sector,
@@ -835,7 +835,8 @@ function drawCameraEnvironment(
   }
 
   // Terrain / Road / Checkpost Elements
-  if (camera.mode === "ANPR_CHECKPOST" || camera.name.includes("Checkpost") || camera.name.includes("ICP")) {
+  const camName = (camera?.name || camera?.properName || "");
+  if (camera?.mode === "ANPR_CHECKPOST" || camName.includes("Checkpost") || camName.includes("ICP")) {
     // Checkpoint Highway & Toll Booths
     ctx.fillStyle = nightMode === "NIGHT_VISION_GREEN" ? "#074e23" : "#1c2430";
     ctx.fillRect(0, height * 0.35, width, height * 0.65);
@@ -873,7 +874,7 @@ function drawCameraEnvironment(
     ctx.setLineDash([8, 8]);
     ctx.stroke();
     ctx.setLineDash([]);
-  } else if (camera.name.includes("River") || camera.name.includes("Gorge") || camera.name.includes("Bridge") || camera.name.includes("Sandbar")) {
+  } else if (camName.includes("River") || camName.includes("Gorge") || camName.includes("Bridge") || camName.includes("Sandbar")) {
     // River & Floodplain
     ctx.fillStyle = nightMode === "NIGHT_VISION_GREEN" ? "#042c14" : "#0f1624";
     ctx.fillRect(0, height * 0.4, width, height * 0.6);
@@ -888,7 +889,7 @@ function drawCameraEnvironment(
     ctx.fill();
 
     // Bridge Structure if applicable
-    if (camera.name.includes("Bridge") || camera.name.includes("Suspension")) {
+    if (camName.includes("Bridge") || camName.includes("Suspension")) {
       ctx.strokeStyle = "#94a3b8";
       ctx.lineWidth = 3;
       ctx.beginPath();
